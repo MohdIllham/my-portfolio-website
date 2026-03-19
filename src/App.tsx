@@ -2,6 +2,22 @@ import React, { useState } from 'react';
 
 const PROJECTS = [
   {
+  id: 'olist',
+  title: "E-Commerce Analytics Engineering",
+  subtitle: "Modern Data Stack (BigQuery + dbt)",
+  stack: ["BigQuery", "dbt", "Google Cloud Storage", "SQL"],
+  summary: "An end-to-end ELT pipeline built on Google Cloud, ingesting raw CSV data from Kaggle into Cloud Storage, loading into BigQuery, and transforming into analytical data marts using dbt. Designed with a star schema to support scalable business intelligence workloads.",
+  highlights: [
+    "External → Native table ingestion from GCS to BigQuery",
+    "dbt staging → intermediate → mart layer modeling",
+    "Star schema design (fact_orders, dim_customers, dim_products)",
+  ],
+  metric: "100%",
+  metricLabel: "Data Model Coverage",
+  repo: "https://github.com/MohdIllham/analytics-engineering-dbt-bigquery",
+  color: "#0ea5e9"
+},
+  {
     id: 'crypto',
     title: "Scalable Crypto Market Pipeline", 
     subtitle: "Hybrid ELT Architecture",
@@ -35,6 +51,83 @@ const PROJECTS = [
   }
 ];
 const ArchitectureFlow = ({ projectId }: { projectId: string }) => {
+   // Ecommerce project architecture (new)
+   if (projectId === 'olist') {
+  return (
+    <div className="bg-slate-900 rounded-2xl p-6 md:p-10 my-8 border border-slate-800 shadow-2xl overflow-x-auto">
+      <div className="flex items-center justify-between min-w-[700px] gap-4">
+
+        {/* Kaggle Source */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-14 h-14 rounded-xl bg-slate-800 border border-sky-500/30 flex items-center justify-center text-sky-400">
+            <img src="/kaggle-logo.svg" alt="Kaggle" className="w-10 h-10" />
+          </div>
+          <span className="text-[10px] font-bold text-sky-400 uppercase">Kaggle CSV</span>
+        </div>
+
+        <div className="flex-1 h-px bg-slate-800 relative">
+  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 px-2 text-[8px] text-slate-500 font-bold uppercase">
+    External → 
+  </div>
+</div>
+        {/* GCS */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-16 h-16 rounded-xl bg-slate-800 border border-sky-500/30 flex items-center justify-center text-sky-400">
+             <img src="/gcs-logo.svg" alt="Cloud Storage" className="w-10 h-10" />
+          </div>
+          <span className="text-[10px] font-bold text-slate-400 uppercase">Cloud Storage</span>
+        </div>
+
+      <div className="flex-1 h-px bg-slate-800 relative">
+  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 px-2 text-[8px] text-slate-500 font-bold uppercase">
+    Native Load to BigQuery
+  </div>
+</div>
+
+        {/* BigQuery Raw */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-16 h-16 rounded-xl bg-slate-800 border border-blue-500/30 flex items-center justify-center text-blue-400">
+             <img src="/bigquery-logo.svg" alt="BigQuery" className="w-10 h-10" />
+          </div>
+          <span className="text-[10px] font-bold text-blue-400 uppercase">BigQuery Raw</span>
+        </div>
+
+        <div className="flex-1 h-px bg-slate-800 relative">
+  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 px-2 text-[8px] text-slate-500 font-bold uppercase">
+    Transformation
+  </div>
+</div>
+
+        {/* dbt */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-20 h-20 rounded-2xl bg-indigo-500/10 border border-indigo-500/50 flex items-center justify-center text-indigo-400">
+             <img src="/dbt.svg" alt="dbt" className="w-10 h-10" />
+         
+          </div>
+          <span className="text-[10px] font-black text-indigo-400 uppercase italic">dbt Models</span>
+        </div>
+
+       <div className="flex-1 h-px bg-slate-800 relative">
+  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 px-2 text-[8px] text-slate-500 font-bold uppercase">
+     Star Schema 
+  </div>
+</div>
+
+        {/* Marts */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-16 h-16 rounded-xl bg-indigo-500/20 border border-indigo-500/50 flex items-center justify-center text-indigo-400">
+             <img src="/datamarts.svg" alt="data marts" className="w-10 h-10" />
+         
+          </div>
+          <span className="text-[10px] font-bold text-indigo-400 uppercase">Data Marts</span>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+ 
+ 
   // Crypto project architecture (your existing one)
  
   if (projectId === 'crypto') {
@@ -44,9 +137,7 @@ const ArchitectureFlow = ({ projectId }: { projectId: string }) => {
           {/* Source */}
           <div className="flex flex-col items-center gap-3">
             <div className="w-14 h-14 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-              </svg>
+               <img src="/coingecko.svg" alt="coingecko" className="w-10 h-10" />
             </div>
             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">CoinGecko API</span>
           </div>
@@ -58,11 +149,7 @@ const ArchitectureFlow = ({ projectId }: { projectId: string }) => {
           {/* Compute */}
           <div className="flex flex-col items-center gap-3">
             <div className="w-20 h-20 rounded-2xl bg-orange-500/10 border border-orange-500/50 flex items-center justify-center text-orange-400 shadow-[0_0_30px_rgba(249,115,22,0.15)]">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                <line x1="12" y1="22.08" x2="12" y2="12"/>
-              </svg>
+              <img src="/DuckDB.svg" alt="duckdb" className="w-10 h-10" />
             </div>
             <span className="text-[10px] font-black text-orange-400 uppercase tracking-widest text-center italic">DuckDB Compute</span>
           </div>
@@ -74,11 +161,7 @@ const ArchitectureFlow = ({ projectId }: { projectId: string }) => {
           {/* Storage */}
           <div className="flex flex-col items-center gap-3">
             <div className="w-16 h-16 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-400">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <ellipse cx="12" cy="5" rx="9" ry="3"/>
-                <path d="M3 5V19A9 3 0 0 0 21 19V5"/>
-                <path d="M3 12A9 3 0 0 0 21 12"/>
-              </svg>
+               <img src="/pgsql.svg" alt="postgresql" className="w-10 h-10" />
             </div>
             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">PostgreSQL</span>
           </div>
@@ -90,13 +173,10 @@ const ArchitectureFlow = ({ projectId }: { projectId: string }) => {
           {/* Marts */}
           <div className="flex flex-col items-center gap-3">
             <div className="w-16 h-16 rounded-xl bg-indigo-500/20 border border-indigo-500/50 flex items-center justify-center text-indigo-400">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M3 3v18h18"/>
-                <path d="M18 17V9"/>
-                <path d="M13 17V5"/>
-                <path d="M8 17v-3"/>
-              </svg>
+            <img src="/datamarts.svg" alt="data marts" className="w-10 h-10" />
+         
             </div>
+            
             <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider text-center">Data Marts</span>
           </div>
         </div>
@@ -237,7 +317,7 @@ export default function App() {
           Reliable <span className="text-slate-300">Architecture</span> for Unreliable Data.
         </h1>
         <p className="max-w-2xl text-xl text-slate-500 font-medium leading-relaxed">
-          I am a Data Engineer focused on building robust ELT pipelines, cost-optimized compute systems,
+          I am a Data Analytical Engineer focused on building robust ELT pipelines, cost-optimized compute systems,
           and automated tools that bridge the gap between physical and digital data.
         </p>
       </header>
