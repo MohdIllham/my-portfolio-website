@@ -19,14 +19,15 @@ const PROJECTS = [
 },
   {
     id: 'crypto',
-    title: "Scalable Crypto Market Pipeline", 
+    title: "Distributed Crypto Data Lakehouse & Pipeline ", 
     subtitle: "Hybrid ELT Architecture",
-    stack: ["Airflow", "DuckDB", "dbt", "PostgreSQL", "Docker"], 
-    summary: "An end-to-end data platform that ingests 10M+ daily market events. Features a decoupled compute layer using DuckDB to pre-process JSON data, significantly reducing warehouse compute costs.",
+    stack: [ "Pyspark", "Airflow", "DuckDB", "dbt", "PostgreSQL", "Docker",  "MinIO-S3"], 
+    summary: "An end-to-end data platform ingesting crypto market data via CoinGecko API. Features a decoupled Medallion Architecture using PySpark for transformation and schema enforcement, with dbt-powered analytics for market momentum classification and ranking models.",
     highlights: [
-      "Vectorized pre-processing with DuckDB", 
-      "Idempotent DAG design with automated recovery", 
-      "Star Schema modeling with dbt-core"
+      "Medallion Architecture (Bronze → Silver → Gold)", 
+      "Idempotent DAG design with automated recovery",  
+      "Star Schema modeling with dbt-core",
+      "Market momentum & ranking models with dbt-core"
     ],
     metric: "99.9%",
     metricLabel: "Uptime Reliability",
@@ -131,57 +132,73 @@ const ArchitectureFlow = ({ projectId }: { projectId: string }) => {
   // Crypto project architecture (your existing one)
  
   if (projectId === 'crypto') {
-    return (
-      <div className="bg-slate-900 rounded-2xl p-6 md:p-10 my-8 border border-slate-800 shadow-2xl overflow-x-auto">
-        <div className="flex items-center justify-between min-w-[650px] gap-4">
-          {/* Source */}
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-14 h-14 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400">
-               <img src="/coingecko.svg" alt="coingecko" className="w-10 h-10" />
-            </div>
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">CoinGecko API</span>
-          </div>
-
-          <div className="flex-1 h-px bg-slate-800 relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 px-2 text-[8px] text-slate-500 font-bold uppercase">Requests</div>
-          </div>
-
-          {/* Compute */}
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-20 h-20 rounded-2xl bg-orange-500/10 border border-orange-500/50 flex items-center justify-center text-orange-400 shadow-[0_0_30px_rgba(249,115,22,0.15)]">
-              <img src="/DuckDB.svg" alt="duckdb" className="w-10 h-10" />
-            </div>
-            <span className="text-[10px] font-black text-orange-400 uppercase tracking-widest text-center italic">DuckDB Compute</span>
-          </div>
-
-          <div className="flex-1 h-px bg-slate-800 relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 px-2 text-[8px] text-slate-500 font-bold uppercase">Vectorized Load</div>
-          </div>
-
-          {/* Storage */}
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-16 h-16 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-400">
-               <img src="/pgsql.svg" alt="postgresql" className="w-10 h-10" />
-            </div>
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">PostgreSQL</span>
-          </div>
-
-          <div className="flex-1 h-px bg-slate-800 relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 px-2 text-[8px] text-slate-500 font-bold uppercase">dbt Transformation</div>
-          </div>
-
-          {/* Marts */}
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-16 h-16 rounded-xl bg-indigo-500/20 border border-indigo-500/50 flex items-center justify-center text-indigo-400">
-            <img src="/datamarts.svg" alt="data marts" className="w-10 h-10" />
-         
-            </div>
-            
-            <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider text-center">Data Marts</span>
-          </div>
+ return (
+  <div className="bg-slate-900 rounded-2xl p-6 md:p-10 my-8 border border-slate-800 shadow-2xl overflow-x-auto">
+    <div className="flex items-center justify-between min-w-[900px] gap-2">
+      {/* CoinGecko REST API */}
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-14 h-14 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center">
+          <img src="/coingecko.svg" alt="coingecko" className="w-10 h-10" />
         </div>
+        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">CoinGecko<br/>REST API</span>
       </div>
-    );
+
+      <div className="w-8 text-slate-600 text-xs">→</div>
+
+      {/* Bronze Layer - Python API Extraction + Raw JSON Storage */}
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-16 h-16 rounded-xl bg-amber-500/10 border border-amber-500/50 flex items-center justify-center">
+          <img src="/Minio.svg" alt="python" className="w-10 h-10" />
+        </div>
+        <span className="text-[10px] font-black text-amber-400 uppercase tracking-widest text-center">Bronze Layer</span>
+        <span className="text-[8px] text-slate-500 text-center">Python API Extraction<br/>Raw JSON Storage</span>
+      </div>
+
+      <div className="w-8 text-slate-600 text-xs">→</div>
+
+      {/* Silver Layer - PySpark + Parquet */}
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-16 h-16 rounded-xl bg-sky-500/10 border border-sky-500/50 flex items-center justify-center">
+          <img src="/pyspark.svg" alt="pyspark" className="w-10 h-10" />
+        </div>
+        <span className="text-[10px] font-black text-sky-400 uppercase tracking-widest text-center">Silver Layer</span>
+        <span className="text-[8px] text-slate-500 text-center">PySpark Transformations<br/>Parquet Storage</span>
+      </div>
+
+      <div className="w-8 text-slate-600 text-xs">→</div>
+
+      {/* Gold Layer - PostgreSQL */}
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-16 h-16 rounded-xl bg-blue-500/10 border border-blue-500/50 flex items-center justify-center">
+          <img src="/pgsql.svg" alt="postgresql" className="w-10 h-10" />
+        </div>
+        <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider text-center">Gold Layer</span>
+        <span className="text-[8px] text-slate-500 text-center">Analytics Ready Tables<br/>PostgreSQL</span>
+      </div>
+
+      <div className="w-8 text-slate-600 text-xs">→</div>
+
+      {/* dbt Analytics Layer */}
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-16 h-16 rounded-xl bg-emerald-500/10 border border-emerald-500/50 flex items-center justify-center">
+          <img src="/dbt.svg" alt="dbt" className="w-10 h-10" />
+        </div>
+        <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest text-center">dbt Analytics</span>
+        <span className="text-[8px] text-slate-500 text-center">Window Functions<br/>Business Metrics</span>
+      </div>
+
+      <div className="w-8 text-slate-600 text-xs">→</div>
+
+      {/* Looker Studio / BI Dashboard */}
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-14 h-14 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center">
+          <img src="/power-bi.svg" alt="looker studio" className="w-10 h-10" />
+        </div>
+        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider text-center">Looker Studio<br/>BI Dashboard</span>
+      </div>
+    </div>
+  </div>
+);
   }
 
   // Gamma (Computer Vision) project architecture
