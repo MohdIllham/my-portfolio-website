@@ -19,7 +19,7 @@ const PROJECTS = [
 },
   {
     id: 'crypto',
-    title: "Distributed Crypto Data Lakehouse & Pipeline ", 
+    title: "Distributed Crypto Data Lakehouse & Pipeline", 
     subtitle: "Hybrid ELT Architecture",
     stack: [ "Pyspark", "Airflow", "DuckDB", "dbt", "PostgreSQL", "Docker",  "MinIO-S3"], 
     summary: "An end-to-end data platform ingesting crypto market data via CoinGecko API. Features a decoupled Medallion Architecture using PySpark for transformation and schema enforcement, with dbt-powered analytics for market momentum classification and ranking models.",
